@@ -41,6 +41,9 @@ client.on("message", async message => {
     list(message, serverQueue);
     return;
   }
+  else if (message.content.startsWith(`${prefix}test`)) {
+    message.channel.send("We live baby, YEAH!");
+  }
   else {
     message.channel.send("You need to enter a valid command!");
   }
