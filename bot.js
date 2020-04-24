@@ -200,8 +200,15 @@ function loop(message, serverQueue) {
     return message.channel.send(
       "There is no track to loop!"
     );
-  serverQueue.loop = true;
-  serverQueue.loopall = false;
+  if (serverQueue.loop) {
+    serverQueue.loop = false;
+    message.channel.send("Looping turned off");
+  }
+  else {
+    serverQueue.loop = true;
+    serverQueue.loopall = false;
+    message.channel.send("The current track is now being looped!");
+  }
 }
 
 function loopall(message, serverQueue) {
@@ -213,8 +220,15 @@ function loopall(message, serverQueue) {
     return message.channel.send(
       "There is no playlist to loop!"
     );
-  serverQueue.loop = false;
-  serverQueue.loopall = true;
+  if (serverQueue.loopall) {
+    serverQueue.loopall = false;
+    message.channel.send("Looping turned off");
+  }
+  else {
+    serverQueue.loop = false;
+    serverQueue.loopall = true;
+    message.channel.send("The current playlist is now being looped!");
+  }
 }
 
 function play(guild, song) {
@@ -225,6 +239,7 @@ function play(guild, song) {
     return;
   }
   if (serverQueue.loop) {
+    serverQueue.textChannel.send("1");
     const dispatcher = serverQueue.connection
       .play(ytdl(song.url))
       .on("finish", () => {
@@ -235,6 +250,7 @@ function play(guild, song) {
     serverQueue.textChannel.send(`Start playing: **${song.title}**`);
   }
   else if (serverQueue.loopall) {
+    serverQueue.textChannel.send("2");
     const dispatcher = serverQueue.connection
       .play(ytdl(song.url))
       .on("finish", () => {
@@ -247,6 +263,7 @@ function play(guild, song) {
     serverQueue.textChannel.send(`Start playing: **${song.title}**`);
   }
   else {
+    serverQueue.textChannel.send("3");
     const dispatcher = serverQueue.connection
       .play(ytdl(song.url))
       .on("finish", () => {
