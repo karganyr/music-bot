@@ -1,3 +1,4 @@
+//https://gabrieltanner.org/blog/dicord-music-bot
 const Discord = require("discord.js");
 const { prefix, token } = require("./config.json");
 const ytdl = require("ytdl-core");
@@ -32,6 +33,9 @@ client.on("message", async message => {
     return;
   } else if (message.content.startsWith(`${prefix}stop`)) {
     stop(message, serverQueue);
+    return;
+  } else if (message.content.startWith(`${prefix}list`)) {
+    list(message, serverQueue);
     return;
   } else {
     message.channel.send("You need to enter a valid command!");
@@ -126,4 +130,7 @@ function play(guild, song) {
   serverQueue.textChannel.send(`Start playing: **${song.title}**`);
 }
 
+function list(guild, song) {
+  serverQueue.textChannel.send(`The next 5 songs are: \n ${serverQueue.songs}`)
+}
 client.login(token);
