@@ -61,6 +61,10 @@ client.on("message", async message => {
     vol(message, serverQueue);
     return;
   }
+  else if (message.content.startsWith(`${prefix}cp`)) {
+    cp(message, serverQueue);
+    return;
+  }
   else if (message.content.startsWith(`${prefix}test`)) {
     message.channel.send("We live baby, YEAH!");
   }
@@ -265,6 +269,23 @@ function vol(message, serverQueue) {
   serverQueue.volume = volume;
   serverQueue.connection.dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
   message.channel.send(`Volume set to ${serverQueue.volume}`);
+}
+
+function cp(message, serverQueue) {
+  if (!serverQueue)
+    return message.channel.send(
+      "There is no song currently playing!"
+    );
+  message.channel.send(`Currently playing: ${serverQueue.songs[0].title}\n Volume: ${serverQueue.volume}`);
+  if (serverQueue.loop) {
+    message.channel.send(`Looping track`);
+  }
+  else if (serverQueue.loopall) {
+    message.channel.send(`Looping playlist`);
+  }
+  else {
+    message.channel.send(`Looping off`);
+  }
 }
 
 function play(guild, song) {
