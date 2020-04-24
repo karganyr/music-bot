@@ -38,27 +38,8 @@ client.on("message", async message => {
     return;
   }
   else if (message.content.startsWith(`${prefix}list`)) {
-    if (!serverQueue) {
-      message.channel.send("There are no songs in the queue!");
-      break;
-    }
-    var n;
-    if (serverQueue.songs.length < 6) {
-      n = serverQueue.songs.length;
-    }
-    else {
-      n = 6;
-    }
-    if (n == 2) {
-      message.channel.send(`There is ${serverQueue.songs.length - 1} song in the queue\n`);
-    }
-    else {
-      message.channel.send(`There are ${serverQueue.songs.length - 1} songs in the queue\n`);
-    }
-    message.channel.send(`The upcoming ${n - 1} songs are:\n`);
-    for (i = 1; i < n; i++) {
-      message.channel.send(`${i}. ${serverQueue.songs[i].title}\n`);
-    }
+    list(message, serverQueue);
+    return;
   }
   else {
     message.channel.send("You need to enter a valid command!");
@@ -136,6 +117,29 @@ function stop(message, serverQueue) {
     );
   serverQueue.songs = [];
   serverQueue.connection.dispatcher.end();
+}
+
+function list(message, serverQueue) {
+  if (!serverQueue) {
+    return message.channel.send("There are no songs in the queue!");
+  }
+  var n;
+  if (serverQueue.songs.length < 6) {
+    n = serverQueue.songs.length;
+  }
+  else {
+    n = 6;
+  }
+  if (n == 2) {
+    message.channel.send(`There is ${serverQueue.songs.length - 1} song in the queue\n`);
+  }
+  else {
+    message.channel.send(`There are ${serverQueue.songs.length - 1} songs in the queue\n`);
+  }
+  message.channel.send(`The upcoming ${n - 1} songs are:\n`);
+  for (i = 1; i < n; i++) {
+    message.channel.send(`${i}. ${serverQueue.songs[i].title}\n`);
+  }
 }
 
 function play(guild, song) {
