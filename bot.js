@@ -131,6 +131,6 @@ function play(guild, song) {
 }
 
 function list(message, serverQueue) {
-  serverQueue.textChannel.send(`The next 5 songs are: \n ${serverQueue.songs}`)
+  serverQueue.textChannel.send(`The next 5 songs are: \n ${serverQueue.songs}`);
 }
 client.login(token);
