@@ -49,7 +49,7 @@ client.on("message", async message => {
     resume(message, serverQueue);
     return;
   }
-  else if (message.content.startsWith(`${prefix}loop`)) {
+  else if (message.content === `${prefix}loop`) {
     loop(message, serverQueue);
     return;
   }
