@@ -254,7 +254,9 @@ function vol(message, serverQueue) {
     return message.channel.send(
       "Value of volume should be between 0 and 100"
     );
+  message.channel.send(`Old value: ${serverQueue.volume}`);
   serverQueue.volume = volume;
+  message.channel.send(`New value: ${serverQueue.volume}`);
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
 
