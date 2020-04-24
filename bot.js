@@ -161,7 +161,7 @@ function list(message, serverQueue) {
     message.channel.send(`The upcoming ${n - 1} songs are:\n`);
   }
   for (i = 1; i < n; i++) {
-    message.channel.send(`${i}. ${serverQueue.songs[i].title}\n`);
+    message.channel.send(`${serverQueue.songs[i].url}\n`);
   }
 }
 
