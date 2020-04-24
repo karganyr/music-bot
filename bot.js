@@ -43,15 +43,20 @@ client.on("message", async message => {
     }
     var n;
     if (serverQueue.songs.length < 5) {
-      n = 5;
-    }
-    else {
       n = serverQueue.songs.length;
     }
-    message.channel.send(`There are ${serverQueue.songs.length} songs in the queue\n`);
+    else {
+      n = 5;
+    }
+    if (n == 1) {
+      message.channel.send(`There is ${serverQueue.songs.length} song in the queue\n`);
+    }
+    else {
+      message.channel.send(`There are ${serverQueue.songs.length} songs in the queue\n`);
+    }
     message.channel.send(`The upcoming ${n} songs are:\n`);
     for (i = 0; i < n; i++) {
-      message.channel.send(`${i}. ${serverQueue.songs[0].title}\n`);
+      message.channel.send(`${i+1}. ${serverQueue.songs[0].title}\n`);
     }
   }
   else {
