@@ -120,7 +120,7 @@ function stop(message, serverQueue) {
 }
 
 function list(message, serverQueue) {
-  if (!serverQueue)
+  if (!serverQueue || serverQueue.songs.length == 1)
     return message.channel.send(
       "There are no songs in the queue!"
     );
@@ -133,11 +133,12 @@ function list(message, serverQueue) {
   }
   if (n == 2) {
     message.channel.send(`There is ${serverQueue.songs.length - 1} song in the queue\n`);
+    message.channel.send(`The upcoming song is:\n`);
   }
   else {
     message.channel.send(`There are ${serverQueue.songs.length - 1} songs in the queue\n`);
+    message.channel.send(`The upcoming ${n - 1} songs are:\n`);
   }
-  message.channel.send(`The upcoming ${n - 1} songs are:\n`);
   for (i = 1; i < n; i++) {
     message.channel.send(`${i}. ${serverQueue.songs[i].title}\n`);
   }
