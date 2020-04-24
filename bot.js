@@ -250,7 +250,7 @@ function vol(message, serverQueue) {
     return message.channel.send(
       "Please provide a valid number"
     );
-  if (volume < 0 || volume > 100)
+  if (volume < 0)
     return message.channel.send(
       "Value of volume should be between 0 and 100"
     );
