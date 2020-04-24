@@ -130,7 +130,7 @@ function play(guild, song) {
   serverQueue.textChannel.send(`Start playing: **${song.title}**`);
 }
 
-function list(guild, song) {
+function list(message, serverQueue) {
   serverQueue.textChannel.send(`The next 5 songs are: \n ${serverQueue.songs}`)
 }
 client.login(token);
