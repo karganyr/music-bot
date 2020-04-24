@@ -41,6 +41,14 @@ client.on("message", async message => {
     list(message, serverQueue);
     return;
   }
+  else if (message.content.startsWith(`${prefix}pause`)) {
+    pause(message, serverQueue);
+    return;
+  }
+  else if (message.content.startsWith(`${prefix}resume`)) {
+    resume(message, serverQueue);
+    return;
+  }
   else if (message.content.startsWith(`${prefix}test`)) {
     message.channel.send("We live baby, YEAH!");
   }
@@ -116,7 +124,7 @@ function stop(message, serverQueue) {
     );
   if (!serverQueue)
     return message.channel.send(
-      "There is no music to be stop!"
+      "There is no music to be stopped!"
     );
   serverQueue.songs = [];
   serverQueue.connection.dispatcher.end();
@@ -145,6 +153,30 @@ function list(message, serverQueue) {
   for (i = 1; i < n; i++) {
     message.channel.send(`${i}. ${serverQueue.songs[i].title}\n`);
   }
+}
+
+function pause(message, serverQueue) {
+  if (!message.member.voice.channel)
+    return message.channel.send(
+      "You have to be in a voice channel to pause the music!"
+    );
+  if (!serverQueue)
+    return message.channel.send(
+      "There is no music to be paused!"
+    );
+  serverQueue.connection.dispatcher.pause();
+}
+
+function resume(message, serverQueue) {
+  if (!message.member.voice.channel)
+    return message.channel.send(
+      "You have to be in a voice channel to resume the music!"
+    );
+  if (!serverQueue)
+    return message.channel.send(
+      "There is no music to be resumed!"
+    );
+  serverQueue.connection.dispatcher.resume();
 }
 
 function play(guild, song) {
