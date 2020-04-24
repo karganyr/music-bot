@@ -263,7 +263,7 @@ function vol(message, serverQueue) {
       "Value of volume should be between 0 and 200"
     );
   serverQueue.volume = volume;
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
+  serverQueue.connection.dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
   message.channel.send(`Volume set to ${serverQueue.volume}`);
 }
 
