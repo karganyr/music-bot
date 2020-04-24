@@ -70,7 +70,7 @@ client.on("message", async message => {
 });
 
 async function execute(message, serverQueue) {
-  const args = message.content.split(" ");
+  const args = message.content.split(/ +/);
 
   const voiceChannel = message.member.voice.channel;
   if (!voiceChannel)
@@ -96,7 +96,7 @@ async function execute(message, serverQueue) {
       voiceChannel: voiceChannel,
       connection: null,
       songs: [],
-      volume: 5,
+      volume: 100,
       loop: false,
       loopall: false,
       playing: true
@@ -236,7 +236,15 @@ function loopall(message, serverQueue) {
 }
 
 function vol(message, serverQueue) {
-  const args = message.content.split(" ");
+  const args = message.content.split(/ +/);
+  if (args.length == 1)
+    return message.channel.send(
+      `The current volume is ${serverQueue.volume}`
+    );
+  if (args.length > 2)
+    return message.channel.send(
+      "Please only input the command and a value"
+    );
   var volume = parseInt(args[1]);
   if (!message.member.voice.channel)
     return message.channel.send(
@@ -250,14 +258,13 @@ function vol(message, serverQueue) {
     return message.channel.send(
       "Please provide a valid number"
     );
-  if (volume < 0)
+  if (volume < 1 || volume > 200)
     return message.channel.send(
-      "Value of volume should be between 0 and 100"
+      "Value of volume should be between 0 and 200"
     );
-  message.channel.send(`Old value: ${serverQueue.volume}`);
   serverQueue.volume = volume;
-  message.channel.send(`New value: ${serverQueue.volume}`);
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+  dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
+  message.channel.send(`Volume set to ${serverQueue.volume}`);
 }
 
 function play(guild, song) {
@@ -284,7 +291,7 @@ function play(guild, song) {
       }
     })
     .on("error", error => console.error(error));
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+  dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
   serverQueue.textChannel.send(`Start playing: **${song.title}**`);
 }
 
