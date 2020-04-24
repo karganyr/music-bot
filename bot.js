@@ -57,6 +57,10 @@ client.on("message", async message => {
     loopall(message, serverQueue);
     return;
   }
+  else if (message.content.startsWith(`${prefix}vol`)) {
+    vol(message, serverQueue);
+    return;
+  }
   else if (message.content.startsWith(`${prefix}test`)) {
     message.channel.send("We live baby, YEAH!");
   }
@@ -229,6 +233,29 @@ function loopall(message, serverQueue) {
     serverQueue.loopall = true;
     message.channel.send("The current playlist is now being looped!");
   }
+}
+
+function vol(message, serverQueue) {
+  const args = message.content.split(" ");
+  var volume = parseInt(args[1]);
+  if (!message.member.voice.channel)
+    return message.channel.send(
+      "You have to be in a voice channel to change volume!"
+    );
+  if (!serverQueue)
+    return message.channel.send(
+      "There is no music to change volume for!"
+    );
+  if (isNaN(volume))
+    return message.channel.send(
+      "Please provide a valid number"
+    );
+  if (volume < 0 || volume > 100)
+    return message.channel.send(
+      "Value of volume should be between 0 and 100"
+    );
+  serverQueue.volume = volume;
+  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
 
 function play(guild, song) {
