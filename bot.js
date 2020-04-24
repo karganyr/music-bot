@@ -28,16 +28,19 @@ client.on("message", async message => {
   if (message.content.startsWith(`${prefix}play`)) {
     execute(message, serverQueue);
     return;
-  } else if (message.content.startsWith(`${prefix}skip`)) {
+  }
+  else if (message.content.startsWith(`${prefix}skip`)) {
     skip(message, serverQueue);
     return;
-  } else if (message.content.startsWith(`${prefix}stop`)) {
+  }
+  else if (message.content.startsWith(`${prefix}stop`)) {
     stop(message, serverQueue);
     return;
-  } else if (message.content.startWith(`${prefix}list`)) {
-    list(message, serverQueue);
-    return;
-  } else {
+  }
+  else if (message.content.startsWith(`${prefix}list`)) {
+    message.channel.send(`The queue is:\n ${serverQueue.songs}`)
+  }
+  else {
     message.channel.send("You need to enter a valid command!");
   }
 });
@@ -95,7 +98,7 @@ async function execute(message, serverQueue) {
 function skip(message, serverQueue) {
   if (!message.member.voice.channel)
     return message.channel.send(
-      "You have to be in a voice channel to skip the music!"
+      "You have to be in a voice channel to stop the music!"
     );
   if (!serverQueue)
     return message.channel.send("There is no song that I could skip!");
@@ -130,7 +133,4 @@ function play(guild, song) {
   serverQueue.textChannel.send(`Start playing: **${song.title}**`);
 }
 
-function list(message, serverQueue) {
-  serverQueue.textChannel.send(`The next 5 songs are: \n ${serverQueue.songs}`);
-}
 client.login(token);
