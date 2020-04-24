@@ -98,7 +98,7 @@ async function execute(message, serverQueue) {
       songs: [],
       volume: 100,
       loop: false,
-      loopall: false,
+      loopall: true,
       playing: true
     };
 
