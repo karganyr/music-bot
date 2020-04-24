@@ -38,7 +38,21 @@ client.on("message", async message => {
     return;
   }
   else if (message.content.startsWith(`${prefix}list`)) {
-    message.channel.send(`The queue is:\n ${serverQueue.songs[0].title}`);
+    if (!serverQueue) {
+      message.channel.send("There are no songs in the queue!");
+    }
+    var i;
+    if (serverQueue.songs.length < 5) {
+      n = 5;
+    }
+    else {
+      n = serverQueue.songs.length;
+    }
+    message.channel.send(`There are ${serverQueue.songs.length} songs in the queue\n`);
+    message.channel.send(`The upcoming ${n} songs are:\n`);
+    for (i = 0; i < n; i++) {
+      message.channel.send(`${i}. ${serverQueue.songs[0].title}\n`);
+    }
   }
   else {
     message.channel.send("You need to enter a valid command!");
