@@ -120,9 +120,10 @@ function stop(message, serverQueue) {
 }
 
 function list(message, serverQueue) {
-  if (!serverQueue) {
-    return message.channel.send("There are no songs in the queue!");
-  }
+  if (!serverQueue)
+    return message.channel.send(
+      "There are no songs in the queue!"
+    );
   var n;
   if (serverQueue.songs.length < 6) {
     n = serverQueue.songs.length;
