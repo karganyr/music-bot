@@ -49,6 +49,14 @@ client.on("message", async message => {
     resume(message, serverQueue);
     return;
   }
+  else if (message.content.startsWith(`${prefix}loop`)) {
+    loop(message, serverQueue);
+    return;
+  }
+  else if (message.content.startsWith(`${prefix}loopall`)) {
+    loopall(message, serverQueue);
+    return;
+  }
   else if (message.content.startsWith(`${prefix}test`)) {
     message.channel.send("We live baby, YEAH!");
   }
@@ -85,6 +93,8 @@ async function execute(message, serverQueue) {
       connection: null,
       songs: [],
       volume: 5,
+      loop: false,
+      loopall: false,
       playing: true
     };
 
@@ -165,6 +175,7 @@ function pause(message, serverQueue) {
       "There is no music to be paused!"
     );
   serverQueue.connection.dispatcher.pause();
+  message.channel.send("Playback paused");
 }
 
 function resume(message, serverQueue) {
@@ -177,6 +188,33 @@ function resume(message, serverQueue) {
       "There is no music to be resumed!"
     );
   serverQueue.connection.dispatcher.resume();
+  message.channel.send("Playback resumed");
+}
+
+function loop(message, serverQueue) {
+  if (!message.member.voice.channel)
+    return message.channel.send(
+      "You have to be in a voice channel to loop the track!"
+    );
+  if (!serverQueue)
+    return message.channel.send(
+      "There is no track to loop!"
+    );
+  serverQueue.loop = true;
+  serverQueue.loopall = false;
+}
+
+function loopall(message, serverQueue) {
+  if (!message.member.voice.channel)
+    return message.channel.send(
+      "You have to be in a voice channel to loop the playlist!"
+    );
+  if (!serverQueue)
+    return message.channel.send(
+      "There is no playlist to loop!"
+    );
+  serverQueue.loop = false;
+  serverQueue.loopall = true;
 }
 
 function play(guild, song) {
@@ -186,16 +224,39 @@ function play(guild, song) {
     queue.delete(guild.id);
     return;
   }
-
-  const dispatcher = serverQueue.connection
-    .play(ytdl(song.url))
-    .on("finish", () => {
-      serverQueue.songs.shift();
-      play(guild, serverQueue.songs[0]);
-    })
-    .on("error", error => console.error(error));
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-  serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+  if (serverQueue.loop) {
+    const dispatcher = serverQueue.connection
+      .play(ytdl(song.url))
+      .on("finish", () => {
+        play(guild, serverQueue.songs[0]);
+      })
+      .on("error", error => console.error(error));
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+  }
+  else if (serverQueue.loopall) {
+    const dispatcher = serverQueue.connection
+      .play(ytdl(song.url))
+      .on("finish", () => {
+        serverQueue.songs.push(song);
+        serverQueue.songs.shift();
+        play(guild, serverQueue.songs[0]);
+      })
+      .on("error", error => console.error(error));
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+  }
+  else {
+    const dispatcher = serverQueue.connection
+      .play(ytdl(song.url))
+      .on("finish", () => {
+        serverQueue.songs.shift();
+        play(guild, serverQueue.songs[0]);
+      })
+      .on("error", error => console.error(error));
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+  }
 }
 
 client.login(token);
