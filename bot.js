@@ -41,7 +41,7 @@ client.on("message", async message => {
     if (!serverQueue) {
       message.channel.send("There are no songs in the queue!");
     }
-    var i;
+    var n;
     if (serverQueue.songs.length < 5) {
       n = 5;
     }
