@@ -178,7 +178,10 @@ function list(message, serverQueue) {
     message.channel.send(`The upcoming ${n - 1} songs are:\n`);
   }
   for (i = 1; i < n; i++) {
-    message.channel.send(`${serverQueue.songs[i].url}\n`);
+    message.channel.send(`${serverQueue.songs[i].title}\n`);
+  }
+  for (i = 0; i < serverQueue.loopsongs.length; i++) {
+    message.channel.send(`${serverQueue.loopsongs[i].title}\n`);
   }
 }
 
@@ -314,6 +317,7 @@ function play(guild, song) {
         serverQueue.loopsongs.push(song);
         serverQueue.songs.shift();
         if (serverQueue.songs.length == 0) {
+          message.channel.send(`It's a me mario`);
           serverQueue.songs = serverQueue.loopsongs.splice();
           serverQueue.loopsongs = []
         }
