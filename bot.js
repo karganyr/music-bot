@@ -157,6 +157,7 @@ function stop(message, serverQueue) {
     );
   serverQueue.songs = [];
   serverQueue.connection.dispatcher.end();
+  serverQueue.playing = false;
 }
 
 function list(message, serverQueue) {
@@ -318,7 +319,7 @@ function play(guild, song) {
       else if (serverQueue.loopall) {
         serverQueue.loopsongs.push(song);
         serverQueue.songs.shift();
-        if (serverQueue.songs.length == 0) {
+        if (serverQueue.songs.length == 0 && serverQueue.playing) {
           serverQueue.songs = Array.from(serverQueue.loopsongs);
           serverQueue.loopsongs = [];
         }
