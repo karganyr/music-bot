@@ -87,7 +87,9 @@ async function execute(message, serverQueue) {
       "I need the permissions to join and speak in your voice channel!"
     );
   }
-
+  if (args[1].startsWith('https')) {
+    args[1] = args[1].replace("https:", "http:");
+  }
   const songInfo = await ytdl.getInfo(args[1]);
   const song = {
     title: songInfo.title,
@@ -317,7 +319,6 @@ function play(guild, song) {
         serverQueue.loopsongs.push(song);
         serverQueue.songs.shift();
         if (serverQueue.songs.length == 0) {
-          serverQueue.textChannel.send(`It's a me mario`);
           serverQueue.songs = Array.from(serverQueue.loopsongs);
           serverQueue.loopsongs = [];
         }
