@@ -100,11 +100,20 @@ async function execute(message, serverQueue) {
       voiceChannel: voiceChannel,
       connection: null,
       songs: [],
+      loopsongs: [],
       volume: 100,
       loop: false,
-      loopall: true,
+      loopall: false,
       playing: true
     };
+
+    if(args[2] == '-loop') {
+      queueContruct.loop = true;
+    }
+
+    else if(args[2] == '-loopall') {
+      queueContruct.loopall = true;
+    }
 
     queue.set(message.guild.id, queueContruct);
 
@@ -276,7 +285,7 @@ function cp(message, serverQueue) {
     return message.channel.send(
       "There is no song currently playing!"
     );
-  message.channel.send(`Currently playing: ${serverQueue.songs[0].title}\n Volume: ${serverQueue.volume}`);
+  message.channel.send(`Currently playing: ${serverQueue.songs[0].title}\nVolume: ${serverQueue.volume}`);
   if (serverQueue.loop) {
     message.channel.send(`Looping track`);
   }
@@ -302,8 +311,12 @@ function play(guild, song) {
         play(guild, serverQueue.songs[0]);
       }
       else if (serverQueue.loopall) {
-        serverQueue.songs.push(song);
+        serverQueue.loopsongs.push(song);
         serverQueue.songs.shift();
+        if (serverQueue.songs.length == 0) {
+          serverQueue.songs = serverQueue.loopsongs.splice();
+          serverQueue.loopsongs = []
+        }
         play(guild, serverQueue.songs[0]);
       }
       else {
