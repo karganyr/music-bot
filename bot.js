@@ -316,11 +316,10 @@ function play(guild, song) {
       else if (serverQueue.loopall) {
         serverQueue.loopsongs.push(song);
         serverQueue.songs.shift();
-        serverQueue.textChannel.send(`Length: ${serverQueue.songs.length}`);
         if (serverQueue.songs.length == 0) {
           serverQueue.textChannel.send(`It's a me mario`);
-          serverQueue.songs = serverQueue.loopsongs.splice();
-          serverQueue.loopsongs = []
+          serverQueue.songs = [...serverQueue.loopsongs];
+          serverQueue.loopsongs = [];
         }
         play(guild, serverQueue.songs[0]);
       }
