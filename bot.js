@@ -69,6 +69,10 @@ client.on("message", async message => {
     remove(message, serverQueue);
     return;
   }
+  else if (message.content.startsWith(`${prefix}notf`)) {
+    notf(message, serverQueue);
+    return;
+  }
   else if (message.content.startsWith(`${prefix}test`)) {
     message.channel.send("We live baby, YEAH!");
   }
@@ -125,7 +129,6 @@ async function execute(message, serverQueue) {
     }
 
     if (args.includes('-notf')) {
-      message.channel.send("Hihi!");
       queueContruct.notf = false;
     }
 
@@ -334,6 +337,11 @@ function remove(message, serverQueue) {
   message.channel.send(
     `${song.title} has been removed from the playlist!`
   );
+}
+
+function notf(message, serverQueue) {
+  serverQueue.notf = !serverQueue.notf;
+  message.channel.send(`Notification settings changed from ${!serverQueue.notf} to ${serverQueue.notf}`);
 }
 
 function play(guild, song) {
