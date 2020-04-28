@@ -113,18 +113,21 @@ async function execute(message, serverQueue) {
       notf: true,
       playing: true
     };
-    /*
+
     if(args.includes('-loop')) {
+      queueContruct.loopall = false;
       queueContruct.loop = true;
     }
 
-    else if(args.includes('-loopall')) {
+    if(args.includes('-loopall')) {
+      queueContruct.loop = false;
       queueContruct.loopall = true;
     }
 
     if (args.includes('-notf')) {
+      message.channel.send("Hihi!");
       queueContruct.notf = false;
-    }*/
+    }
 
     queue.set(message.guild.id, queueContruct);
 
@@ -326,7 +329,7 @@ function remove(message, serverQueue) {
       "Please provide a valid number for the song to be removed!"
     );
   }
-  var song = serverQueue.song[rm];
+  var song = serverQueue.songs[rm];
   serverQueue.songs = serverQueue.songs.splice(rm, 1);
   message.channel.send(
     `${song.title} has been removed from the playlist!`
