@@ -113,7 +113,7 @@ async function execute(message, serverQueue) {
       notf: true,
       playing: true
     };
-
+    /*
     if(args.includes('-loop')) {
       queueContruct.loop = true;
     }
@@ -124,7 +124,7 @@ async function execute(message, serverQueue) {
 
     if (args.includes('-notf')) {
       queueContruct.notf = false;
-    }
+    }*/
 
     queue.set(message.guild.id, queueContruct);
 
