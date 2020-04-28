@@ -65,6 +65,10 @@ client.on("message", async message => {
     cp(message, serverQueue);
     return;
   }
+  else if (message.content.startsWith(`${prefix}remove`)) {
+    remove(message, serverQueue);
+    return;
+  }
   else if (message.content.startsWith(`${prefix}test`)) {
     message.channel.send("We live baby, YEAH!");
   }
@@ -106,15 +110,20 @@ async function execute(message, serverQueue) {
       volume: 100,
       loop: false,
       loopall: false,
+      notf: true,
       playing: true
     };
 
-    if(args[2] == '-loop') {
+    if(args.includes('-loop')) {
       queueContruct.loop = true;
     }
 
-    else if(args[2] == '-loopall') {
+    else if(args.includes('-loopall')) {
       queueContruct.loopall = true;
+    }
+
+    if (args.includes('-notf')) {
+      queueContruct.notf = false;
     }
 
     queue.set(message.guild.id, queueContruct);
@@ -182,9 +191,6 @@ function list(message, serverQueue) {
   }
   for (i = 1; i < n; i++) {
     message.channel.send(`${serverQueue.songs[i].title}\n`);
-  }
-  for (i = 0; i < serverQueue.loopsongs.length; i++) {
-    message.channel.send(`${serverQueue.loopsongs[i].title}\n`);
   }
 }
 
@@ -303,6 +309,30 @@ function cp(message, serverQueue) {
   }
 }
 
+function remove(message, serverQueue) {
+  if (!serverQueue)
+    return message.channel.send(
+      "There is no song to remove from the playlist!"
+    );
+  const args = message.content.split(/ +/);
+  if (args.length == 1) {
+    return message.channel.send(
+      "Please specify the song to remove from the playlist!"
+    );
+  }
+  var rm = parseInt(args[1]);
+  if (rm > serverQueue.songs.length) {
+    return message.channel.send(
+      "Please provide a valid number for the song to be removed!"
+    );
+  }
+  var song = serverQueue.song[rm];
+  serverQueue.songs = serverQueue.songs.splice(rm, 1);
+  message.channel.send(
+    `${song.title} has been removed from the playlist!`
+  );
+}
+
 function play(guild, song) {
   const serverQueue = queue.get(guild.id);
   if (!song) {
@@ -332,7 +362,9 @@ function play(guild, song) {
     })
     .on("error", error => console.error(error));
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
-  serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+  if (serverQueue.notf) {
+    serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+  }
 }
 
 client.login(token);
