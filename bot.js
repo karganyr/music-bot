@@ -95,6 +95,11 @@ async function execute(message, serverQueue) {
       "I need the permissions to join and speak in your voice channel!"
     );
   }
+  if (args.length < 2) {
+    return message.channel.send(
+      "No link to song detected!"
+    );
+  }
   if (args[1].startsWith('https')) {
     args[1] = args[1].replace("https:", "http:");
   }
@@ -140,12 +145,14 @@ async function execute(message, serverQueue) {
       var connection = await voiceChannel.join();
       queueContruct.connection = connection;
       play(message.guild, queueContruct.songs[0]);
-    } catch (err) {
+    }
+    catch (err) {
       console.log(err);
       queue.delete(message.guild.id);
       return message.channel.send(err);
     }
-  } else {
+  }
+  else {
     serverQueue.songs.push(song);
     return message.channel.send(`${song.title} has been added to the queue!`);
   }
@@ -367,6 +374,7 @@ function play(guild, song) {
         play(guild, serverQueue.songs[0]);
       }
       else {
+        serverQueue.loopsongs.push(song);
         serverQueue.songs.shift();
         play(guild, serverQueue.songs[0]);
       }
