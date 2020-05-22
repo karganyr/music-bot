@@ -104,6 +104,7 @@ async function execute(message, serverQueue) {
     args[1] = args[1].replace("https:", "http:");
   }
   const songInfo = await ytdl.getInfo(args[1]);
+  console.log(typeof songInfo.video_url);
   const song = {
     title: songInfo.title,
     url: songInfo.video_url
@@ -358,12 +359,11 @@ function play(guild, song) {
     queue.delete(guild.id);
     return;
   }
-  const dispatcher = serverQueue.connection
+  try{
+    const dispatcher = serverQueue.connection
     .play(ytdl(song.url))
     .on("finish", () => {
       if (serverQueue.loop) {
-        serverQueue.textChannel.send(`url = ${song.url}`);
-        serverQueue.textChannel.send(`songs url = ${serverQueue.songs[0].url}`);
         play(guild, serverQueue.songs[0]);
       }
       else if (serverQueue.loopall) {
@@ -382,9 +382,13 @@ function play(guild, song) {
       }
     })
     .on("error", error => console.error(error));
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
-  if (serverQueue.notf) {
-    serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
+    if (serverQueue.notf) {
+      serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+    }
+  }
+  catch {
+    console.log(typeof song.url);
   }
 }
 
