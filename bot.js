@@ -362,12 +362,8 @@ function play(guild, song) {
     .play(ytdl(song.url))
     .on("finish", () => {
       if (serverQueue.loop) {
-        const song2 = {
-          title: song.title,
-          url: song.video_url
-        };
-        serverQueue.songs.push(song2);
-        serverQueue.songs.shift();
+        serverQueue.textChannel.send(`url = ${song.url}`);
+        serverQueue.textChannel.send(`songs url = ${serverQueue.songs[0].url}`);
         play(guild, serverQueue.songs[0]);
       }
       else if (serverQueue.loopall) {
