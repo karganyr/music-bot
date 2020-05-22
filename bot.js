@@ -104,7 +104,6 @@ async function execute(message, serverQueue) {
     args[1] = args[1].replace("https:", "http:");
   }
   const songInfo = await ytdl.getInfo(args[1]);
-  console.log(typeof songInfo.video_url);
   const song = {
     title: songInfo.title,
     url: songInfo.video_url
@@ -359,7 +358,6 @@ function play(guild, song) {
     queue.delete(guild.id);
     return;
   }
-  console.log(typeof song.url);
   if (typeof song.url != 'string') {
     console.log(song.url);
   }
