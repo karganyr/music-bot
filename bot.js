@@ -359,36 +359,35 @@ function play(guild, song) {
     queue.delete(guild.id);
     return;
   }
-  try{
-    const dispatcher = serverQueue.connection
-    .play(ytdl(song.url))
-    .on("finish", () => {
-      if (serverQueue.loop) {
-        play(guild, serverQueue.songs[0]);
-      }
-      else if (serverQueue.loopall) {
-        serverQueue.loopsongs.push(song);
-        serverQueue.songs.shift();
-        if (serverQueue.songs.length == 0 && serverQueue.playing) {
-          serverQueue.songs = Array.from(serverQueue.loopsongs);
-          serverQueue.loopsongs = [];
-        }
-        play(guild, serverQueue.songs[0]);
-      }
-      else {
-        serverQueue.loopsongs.push(song);
-        serverQueue.songs.shift();
-        play(guild, serverQueue.songs[0]);
-      }
-    })
-    .on("error", error => console.error(error));
-    dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
-    if (serverQueue.notf) {
-      serverQueue.textChannel.send(`Start playing: **${song.title}**`);
-    }
+  console.log(typeof song.url);
+  if (typeof song.url != 'string') {
+    console.log(song.url);
   }
-  catch {
-    console.log(typeof song.url);
+  const dispatcher = serverQueue.connection
+  .play(ytdl(song.url))
+  .on("finish", () => {
+    if (serverQueue.loop) {
+      play(guild, serverQueue.songs[0]);
+    }
+    else if (serverQueue.loopall) {
+      serverQueue.loopsongs.push(song);
+      serverQueue.songs.shift();
+      if (serverQueue.songs.length == 0 && serverQueue.playing) {
+        serverQueue.songs = Array.from(serverQueue.loopsongs);
+        serverQueue.loopsongs = [];
+      }
+      play(guild, serverQueue.songs[0]);
+    }
+    else {
+      serverQueue.loopsongs.push(song);
+      serverQueue.songs.shift();
+      play(guild, serverQueue.songs[0]);
+    }
+  })
+  .on("error", error => console.error(error));
+  dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
+  if (serverQueue.notf) {
+    serverQueue.textChannel.send(`Start playing: **${song.title}**`);
   }
 }
 
