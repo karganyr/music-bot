@@ -358,9 +358,6 @@ function play(guild, song) {
     queue.delete(guild.id);
     return;
   }
-  if (typeof song.url != 'string') {
-    console.log(song.url);
-  }
   const dispatcher = serverQueue.connection
   .play(ytdl(song.url))
   .on("finish", () => {
