@@ -11,6 +11,7 @@
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
     "winston": "^3.2.1",
-    "ytdl-core": "^2.1.4"
+    "ytdl-core": "^2.1.4",
+    "ytdl-core-discord": "^1.2.0"
   }
 }
