@@ -5,6 +5,14 @@ const { prefix, token } = require("./config.json");
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+const queue = new Discord.Collection();
+
+const getq = () => {
+  return queue;
+};
+
+exports.getq = getq;
+
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
