@@ -1,9 +1,11 @@
+const bot = require("../bot.js")
+const queue = bot.getq();
+
 module.exports = {
     name: 'loopall',
     description: 'Test if bot is online',
     args: false,
-    queue: true,
-    execute(message, args, queue) {
+    execute(message, args) {
       const squeue = queue.get(message.guild.id);
       if (!message.member.voice.channel) {
         return message.channel.send("You have to be in a voice channel to loop the music!");

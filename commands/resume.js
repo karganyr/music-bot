@@ -5,7 +5,6 @@ module.exports = {
     name: 'resume',
     description: 'Test if bot is online',
     args: false,
-    queue: true,
     execute(message, args) {
       const squeue = queue.get(message.guild.id);
       if (!message.member.voice.channel) {

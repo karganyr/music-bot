@@ -60,12 +60,19 @@ async function play(guild) {
     return;
   }
 
-  const dispatcher = squeue.connection.play(await ytdl(song.url), {type: 'opus'}, {highWaterMark: 1<<25});
+  const dispatcher = squeue.connection.play(await ytdl(song.url), {type: 'opus'});
   squeue.dispatcher = dispatcher;
+  dispatcher.setVolumeLogarithmic(squeue.volume / 100);
 
-  dispatcher.on('start', () => {
-	   squeue.textChannel.send(`Start playing: **${song.title}**`);
-  });
+  if (squeue.notf) {
+    dispatcher.on('start', () => {
+      const temp = {
+        title: 'Now Playing',
+        description: `**[${song.title}](${song.url})**`
+      };
+      squeue.textChannel.send({embed: temp});
+    });
+  }
 
   dispatcher.on('finish', () => {
 	   if (squeue.loop) {
@@ -95,7 +102,6 @@ module.exports = {
     name: 'play',
     description: 'Test if bot is online',
     args: true,
-    queue: true,
     execute(message, args) {
       execute(message, args);
     },

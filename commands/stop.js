@@ -5,10 +5,8 @@ module.exports = {
     name: 'stop',
     description: 'Test if bot is online',
     args: false,
-    queue: true,
     execute(message, args) {
       const squeue = queue.get(message.guild.id);
-      console.log(squeue);
       if (!message.member.voice.channel) {
         return message.channel.send("You have to be in a voice channel to stop the music!");
       }
@@ -17,6 +15,5 @@ module.exports = {
       }
       squeue.songs = [];
       squeue.dispatcher.end();
-      squeue.playing = false
     },
 };
