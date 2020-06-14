@@ -82,7 +82,7 @@ async function play(guild) {
        squeue.loopsongs.push(song);
        squeue.songs.shift();
        if (squeue.songs.length == 0) {
-         squeue.songs = Array.from(serverQueue.loopsongs);
+         squeue.songs = Array.from(squeue.loopsongs);
          squeue.loopsongs = [];
        }
        play(guild);
