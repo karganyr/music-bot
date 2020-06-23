@@ -14,6 +14,7 @@ module.exports = {
         return message.channel.send("There is no music to be stopped!");
       }
       squeue.songs = [];
+      squeue.playing = false;
       squeue.dispatcher.end();
     },
 };

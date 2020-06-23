@@ -27,6 +27,7 @@ async function execute(message, args) {
       loop: false,
       loopall: false,
       notf: true,
+      playing: true,
     };
 
     queue.set(message.guild.id, qData);
@@ -81,7 +82,7 @@ async function play(guild) {
      else if (squeue.loopall) {
        squeue.loopsongs.push(song);
        squeue.songs.shift();
-       if (squeue.songs.length == 0) {
+       if (squeue.songs.length == 0 && squeue.playing) {
          squeue.songs = Array.from(squeue.loopsongs);
          squeue.loopsongs = [];
        }
