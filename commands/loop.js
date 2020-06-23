@@ -17,5 +17,6 @@ module.exports = {
       if (squeue.loopall) {
         squeue.loopall = !squeue.loopall;
       }
+      message.channel.send("Current song is now being looped!");
     },
 };

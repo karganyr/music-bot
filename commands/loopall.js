@@ -17,5 +17,6 @@ module.exports = {
       if (squeue.loop) {
         squeue.loop = !squeue.loop;
       }
+      message.channel.send("Current playlist is now being looped!");
     },
 };
