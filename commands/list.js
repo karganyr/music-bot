@@ -24,8 +24,8 @@ module.exports = {
         if (i >= squeue.songs.length) {
           nlist.fields.push(
             {
-              name: `**${squeue.songs[i - squeue.songs.length].title}**`,
-              value: `${squeue.songs[i - squeue.songs.length].url}`,
+              name: `**${squeue.loopsongs[i - squeue.songs.length].title}**`,
+              value: `${squeue.loopsongs[i - squeue.songs.length].url}`,
             },
           );
         }
