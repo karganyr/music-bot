@@ -4,6 +4,9 @@
   "description": "Personal Music Bot",
   "main": "bot.js",
   "author": "Karganyr",
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
     "discord.io": "^2.5.3",
