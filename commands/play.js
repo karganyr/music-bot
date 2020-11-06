@@ -1,4 +1,4 @@
-const ytdl = require("ytdl-core-discord");
+const ytdl = require("discord-ytdl-core");
 const bot = require("../bot.js")
 const queue = bot.getq();
 
@@ -60,8 +60,12 @@ async function play(guild) {
     queue.delete(guild.id);
     return;
   }
-
-  const dispatcher = squeue.connection.play(await ytdl(song.url), {type: 'opus'});
+  let stream = ytdl(song.url), {
+    filter: "audioonly",
+    opusEncoded: true,
+    encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200']
+  });
+  const dispatcher = squeue.connection.play(stream, {type: 'opus'});
   squeue.dispatcher = dispatcher;
   dispatcher.setVolumeLogarithmic(squeue.volume / 100);
 
