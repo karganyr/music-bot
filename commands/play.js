@@ -9,11 +9,15 @@ async function execute(message, args) {
   if (!voiceChannel) {
     return message.channel.send("You need to be in a voice channel to play music!");
   }
-  const songInfo = await ytdl.getBasicInfo(url);
-  const song = {
-    title: songInfo.title,
-    url: url,
-  };
+  try {
+    const {songTitle} = await ytdl.getBasicInfo(url);
+    const song = {
+      title: songTitle,
+      url: url,
+    };
+  } catch (err) {
+    console.error(err);
+  }
 
   if (!squeue) {
     const qData = {
@@ -65,7 +69,7 @@ async function play(guild) {
       opusEncoded: true,
       encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200']
   });
-  const dispatcher = squeue.connection.play(stream, {type: 'opus', quality: 'highestaudio', highWaterMark: 1 << 25});
+  const dispatcher = squeue.connection.play(stream, {highWaterMark: 1 << 25});
   squeue.dispatcher = dispatcher;
   dispatcher.setVolumeLogarithmic(squeue.volume / 100);
 
