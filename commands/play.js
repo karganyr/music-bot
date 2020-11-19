@@ -9,7 +9,12 @@ async function execute(message, args) {
   if (!voiceChannel) {
     return message.channel.send("You need to be in a voice channel to play music!");
   }
-  const {songTitle} = await ytdl.getBasicInfo(url);
+  var songTitle;
+  ytdl(youtube_url)
+  .on('info', (info) => {
+     console.log(info.title); // the video title
+     songTitle = info.title;
+  });
   const song = {
     title: songTitle,
     url: url,
