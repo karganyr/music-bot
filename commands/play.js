@@ -1,4 +1,4 @@
-const ytdl = require("discord-ytdl-core");
+const ytdl = require("ytdl-core");
 const bot = require("../bot.js")
 const queue = bot.getq();
 
@@ -62,9 +62,8 @@ async function play(guild) {
   }
   let stream = ytdl(song.url, {
       filter: "audioonly",
-      opusEncoded: true,
   });
-  const dispatcher = squeue.connection.play(stream, {type: 'opus', highWaterMark: 1 << 25});
+  const dispatcher = squeue.connection.play(stream, {type: 'opus', highWaterMark: 1 << 15});
   squeue.dispatcher = dispatcher;
   dispatcher.setVolumeLogarithmic(squeue.volume / 100);
 
