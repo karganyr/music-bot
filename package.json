@@ -5,16 +5,12 @@
   "main": "bot.js",
   "author": "Karganyr",
   "engines": {
-    "node": "15.x"
+    "node": "15.x",
+    "npm": "7.x"
   },
   "dependencies": {
-    "@discordjs/opus": "^0.1.0",
-    "discord-ytdl-core": "4.1.5",
-    "discord.io": "^2.5.3",
     "discord.js": "^12.4.1",
-    "ffmpeg": "^0.0.4",
-    "opusscript": "^0.0.7",
-    "sodium": "^3.0.2",
-    "ytdl-core": "^3.4.2"
-  }
+    "ffmpeg-static": "^4.2.7",
+    "opusscript": "0.0.7",
+    "ytdl-core": "^4.0.3" }
 }
