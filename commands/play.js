@@ -9,15 +9,11 @@ async function execute(message, args) {
   if (!voiceChannel) {
     return message.channel.send("You need to be in a voice channel to play music!");
   }
-  try {
-    const {songTitle} = await ytdl.getBasicInfo(url);
-    const song = {
-      title: songTitle,
-      url: url,
-    };
-  } catch (err) {
-    console.error(err);
-  }
+  const {songTitle} = await ytdl.getBasicInfo(url);
+  const song = {
+    title: songTitle,
+    url: url,
+  };
 
   if (!squeue) {
     const qData = {
