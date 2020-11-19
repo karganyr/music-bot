@@ -63,9 +63,8 @@ async function play(guild) {
   let stream = ytdl(song.url, {
       filter: "audioonly",
       opusEncoded: true,
-      encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200']
   });
-  const dispatcher = squeue.connection.play(stream, {highWaterMark: 1 << 25});
+  const dispatcher = squeue.connection.play(stream, {type: 'opus', highWaterMark: 1 << 25});
   squeue.dispatcher = dispatcher;
   dispatcher.setVolumeLogarithmic(squeue.volume / 100);
 
