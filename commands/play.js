@@ -65,7 +65,7 @@ async function play(guild) {
       opusEncoded: true,
       encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200']
   });
-  const dispatcher = squeue.connection.play(stream, {type: 'opus'});
+  const dispatcher = squeue.connection.play(stream, {type: 'opus', quality: 'highestaudio', highWaterMark: 1 << 25});
   squeue.dispatcher = dispatcher;
   dispatcher.setVolumeLogarithmic(squeue.volume / 100);
 
