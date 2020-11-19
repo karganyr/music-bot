@@ -13,6 +13,7 @@
     "discord.io": "^2.5.3",
     "discord.js": "^12.4.1",
     "ffmpeg": "^0.0.4",
+    "opusscript": "^0.0.7",
     "sodium": "^3.0.2",
     "ytdl-core": "^3.4.2"
   }
