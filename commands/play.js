@@ -60,7 +60,7 @@ async function play(guild) {
     queue.delete(guild.id);
     return;
   }
-  const dispatcher = squeue.connection.play(ytdl(song.url), {filter: "audioonly", quality: "highestaudio"});
+  const dispatcher = squeue.connection.play(ytdl(song.url,{filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25 }), {highWaterMark: 1});
   squeue.dispatcher = dispatcher;
   dispatcher.setVolumeLogarithmic(squeue.volume / 100);
 
