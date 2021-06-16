@@ -1,5 +1,6 @@
 module.exports = {
     name: 'color',
+    aliases: ['colour'],
     description: 'Test if bot is online',
     args: true,
     execute(message, args) {
