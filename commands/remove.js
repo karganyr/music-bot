@@ -3,8 +3,10 @@ const queue = bot.getq();
 
 module.exports = {
     name: 'remove',
-    description: 'Test if bot is online',
+    description: 'Removes the song from the playlist',
     args: true,
+    args_length: 1,
+    usage: '<valid_song_number>',
     execute(message, args) {
       const squeue = queue.get(message.guild.id);
       if (!squeue) {

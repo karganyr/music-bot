@@ -3,8 +3,10 @@ const queue = bot.getq();
 
 module.exports = {
     name: 'list',
-    description: 'Test if bot is online',
+    aliases: ['queue', 'playlist'],
+    description: 'Returns a list of songs currently in the queue, capped at 10 songs',
     args: false,
+    args_length: 0,
     execute(message, args) {
       const squeue = queue.get(message.guild.id);
       if (!squeue) {
@@ -17,7 +19,9 @@ module.exports = {
           text: `Volume: ${squeue.volume} | Loop: ${squeue.loop} | Loop playlist: ${squeue.loopall}`,
         },
       };
-      var n = squeue.songs.length + squeue.loopsongs.length - 1;
+      var n = 0
+      if (squeue.loopall) {n = squeue.songs.length + squeue.loopsongs.length - 1;}
+      else {n = squeue.songs.length - 1;}
       if (n == 0) return message.channel.send("There are no songs in the queue!");
       if (n > 10) n = 10;
       for (i = 1; i < n + 1; i++) {

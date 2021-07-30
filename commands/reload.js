@@ -2,6 +2,8 @@ module.exports = {
 	name: 'reload',
 	description: 'Reloads a command',
 	args: true,
+	args_length: 1,
+	usage: '<valid_command_name>',
 	execute(message, args) {
 		const commandName = args[0].toLowerCase();
 		const command = message.client.commands.get(commandName)

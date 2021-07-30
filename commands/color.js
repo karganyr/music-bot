@@ -1,8 +1,10 @@
 module.exports = {
     name: 'color',
     aliases: ['colour'],
-    description: 'Test if bot is online',
+    description: 'Change the color of the specified role to the specified color',
     args: true,
+    args_length: 2,
+    usage: '<role> <hex_color>',
     execute(message, args) {
       if (!message.mentions.roles.size) {
   			return message.reply('You need to mention a role to change color for!');

@@ -3,8 +3,10 @@ const queue = bot.getq();
 
 module.exports = {
     name: 'vol',
-    description: 'Test if bot is online',
+    description: 'Change the volume of the music being played between 1 and 200',
     args: true,
+    args_length: 1,
+    usage: '<valid_volume_number>',
     execute(message, args) {
       const squeue = queue.get(message.guild.id);
       if (args.length > 1) {

@@ -3,8 +3,9 @@ const queue = bot.getq();
 
 module.exports = {
     name: 'pause',
-    description: 'Test if bot is online',
+    description: 'Pause the song currently being played',
     args: false,
+    args_length: 0,
     execute(message, args) {
       const squeue = queue.get(message.guild.id);
       if (!message.member.voice.channel) {

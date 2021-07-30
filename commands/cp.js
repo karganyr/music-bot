@@ -3,8 +3,10 @@ const queue = bot.getq();
 
 module.exports = {
     name: 'cp',
-    description: 'Test if bot is online',
+    aliases: ['now', 'current', 'playing'],
+    description: 'Returns the details of the current song being played',
     args: false,
+    args_length: 0,
     execute(message, args) {
       const squeue = queue.get(message.guild.id);
       if (!squeue) {

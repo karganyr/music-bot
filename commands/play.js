@@ -9,45 +9,51 @@ async function execute(message, args) {
   if (!voiceChannel) {
     return message.channel.send("You need to be in a voice channel to play music!");
   }
-  const songInfo = await ytdl.getInfo(url);
-  const song = {
-    title: songInfo.videoDetails.title,
-    url: songInfo.videoDetails.video_url,
-  };
 
-  if (!squeue) {
-    const qData = {
-      textChannel: message.channel,
-      voiceChannel: voiceChannel,
-      connection: null,
-      dispatcher: null,
-      songs: [],
-      loopsongs: [],
-      volume: 100,
-      loop: false,
-      loopall: false,
-      notf: true,
-      playing: true,
+  try {
+    const songInfo = await ytdl.getInfo(url);
+    const song = {
+      title: songInfo.videoDetails.title,
+      url: songInfo.videoDetails.video_url,
     };
 
-    queue.set(message.guild.id, qData);
+    if (!squeue) {
+      const qData = {
+        textChannel: message.channel,
+        voiceChannel: voiceChannel,
+        connection: null,
+        dispatcher: null,
+        songs: [],
+        loopsongs: [],
+        volume: 100,
+        loop: false,
+        loopall: false,
+        notf: true,
+        playing: true,
+      };
 
-    qData.songs.push(song);
+      queue.set(message.guild.id, qData);
 
-    try {
-      const connection = await message.member.voice.channel.join();
-      qData.connection = connection;
-      play(message.guild);
+      qData.songs.push(song);
+
+      try {
+        const connection = await message.member.voice.channel.join();
+        qData.connection = connection;
+        play(message.guild);
+      }
+      catch (error) {
+        console.log(error);
+        queue.delete(message.guild.id);
+        return message.channel.send(error);
+      }
     }
-    catch (error) {
-      console.log(error);
-      queue.delete(message.guild.id);
-      return message.channel.send(error);
+    else {
+      squeue.songs.push(song);
+      return message.channel.send(`${song.title} has been added to the queue!`);
     }
   }
-  else {
-    squeue.songs.push(song);
-    return message.channel.send(`${song.title} has been added to the queue!`);
+  catch (error) {
+    return message.channel.send("Something went wrong, please try a different link for the song!");
   }
 }
 
@@ -93,15 +99,16 @@ async function play(guild) {
        play(guild);
      }
   });
-
   // Always remember to handle errors appropriately!
   dispatcher.on('error', console.error);
 }
 
 module.exports = {
     name: 'play',
-    description: 'Test if bot is online',
+    description: 'Play the song from the YouTube link provided',
     args: true,
+    args_length: 1,
+    usage: '<valid_youtube_url>',
     execute(message, args) {
       execute(message, args);
     },

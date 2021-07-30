@@ -2,7 +2,7 @@
 const fs = require("fs");
 const Discord = require("discord.js");
 const prefix = "!";
-const token = process.env.BOT_TOKEN;
+const token = "NjQ5ODA1MjU1NzM0ODUzNjMz.XeCITQ.kxXqdOkHz6wKJegHOhQaeVaRx0E";//process.env.BOT_TOKEN;
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -36,8 +36,22 @@ client.on('message', message => {
 
   if (!command) return;
 
-  if (command.args && !args.length) {
-    return message.channel.send(`You didn't provide any arguments ${message.author}!`);
+  if (command.args && !args.length && (command.args_length != -1)) {
+    let reply = `You didn't provide any arguments, ${message.author}!`;
+
+    if (command.usage) {
+      reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+	  }
+    return message.channel.send(reply);
+  }
+
+  if (command.args_length != args.length && (command.args_length != -1)) {
+    let reply = `This command only takes **${command.args_length}** arguments!`;
+
+    if (command.usage) {
+      reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+	  }
+    return message.channel.send(reply);
   }
 
   try {
