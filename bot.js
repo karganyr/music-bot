@@ -2,7 +2,7 @@
 const fs = require("fs");
 const Discord = require("discord.js");
 const prefix = "!";
-const token = "NjQ5ODA1MjU1NzM0ODUzNjMz.XeCITQ.kxXqdOkHz6wKJegHOhQaeVaRx0E";//process.env.BOT_TOKEN;
+const token = process.env.BOT_TOKEN;
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
