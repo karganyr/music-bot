@@ -25,7 +25,7 @@ async function execute(message, args) {
         dispatcher: null,
         songs: [],
         loopsongs: [],
-        volume: 100,
+        volume: 25,
         loop: false,
         loopall: false,
         notf: true,
