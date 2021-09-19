@@ -15,6 +15,7 @@ async function execute(message, args) {
     const song = {
       title: songInfo.videoDetails.title,
       url: songInfo.videoDetails.video_url,
+      length: songInfo.videoDetails.lengthSeconds,
     };
 
     if (!squeue) {
@@ -60,13 +61,14 @@ async function execute(message, args) {
 async function play(guild) {
   const squeue = queue.get(guild.id);
   const song = squeue.songs[0];
-
   if (!song) {
     squeue.voiceChannel.leave();
     queue.delete(guild.id);
     return;
   }
-  const dispatcher = squeue.connection.play(ytdl(song.url,{filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25 }), {highWaterMark: 1});
+
+  const stream = ytdl(song.url, {filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25 });
+  const dispatcher = squeue.connection.play(stream, {highWaterMark: 1});
   squeue.dispatcher = dispatcher;
   dispatcher.setVolumeLogarithmic(squeue.volume / 100);
 
@@ -111,5 +113,8 @@ module.exports = {
     usage: '<valid_youtube_url>',
     execute(message, args) {
       execute(message, args);
+    },
+    play(guild) {
+        play(guild);
     },
 };
