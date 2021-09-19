@@ -16,7 +16,7 @@ module.exports = {
         title: "**Currently Playing**",
         fields: [
           {
-            name: `**${squeue.songs[0].title}`,
+            name: `**${squeue.songs[0].title}**`,
             value: `${squeue.songs[0].url}`,
           },
         ],
