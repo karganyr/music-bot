@@ -6,12 +6,12 @@
   "author": "Karganyr",
   "engines": {
     "node": "16.x",
-    "npm": "7.x"
+    "npm": "8.x"
   },
   "dependencies": {
-    "discord.js": "^12.4.1",
-    "ffmpeg-static": "^4.2.7",
+    "discord.js": "^12.x",
+    "ffmpeg-static": "^5.0.0",
     "opusscript": "0.0.7",
-    "ytdl-core": "^4.10.0"
+    "ytdl-core": "^4.10"
   }
 }
